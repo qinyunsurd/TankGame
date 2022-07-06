@@ -6,7 +6,7 @@ public class TankMain {
 	    TankFrame frame = new TankFrame();
 	    //初始化敌方坦克
 	    for (int i = 0; i < 5; i++){
-	    	frame.tanks.add(new Tank(100+Tank.TANK_WIDTH*i+Tank.TANK_WIDTH,200,Dir.DOWN,frame));
+	    	frame.tanks.add(new Tank(50+i*80,200,Dir.DOWN,frame));
 		}
 	    while (true){
 	        Thread.sleep(30);
