@@ -72,10 +72,12 @@ public class Tank {
     }
 
     public void fire() {
+        //根据坦克图片大小，计算子弹位置
         int bx = this.x + Tank.TANK_WIDTH/2 - Bullet.BULLET_WIDTH/2;
         int by = this.y + Tank.TANK_HEIGHT/2 - Bullet.BULLET_HEIGHT/2;
         tf.bullets.add(new Bullet(bx,by,this.dir,tf));
     }
+
     public void setMoving(boolean moving) {
         this.moving = moving;
     }
