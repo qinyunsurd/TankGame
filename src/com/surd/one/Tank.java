@@ -1,6 +1,7 @@
 package com.surd.one;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * @Author: gulang
@@ -11,19 +12,21 @@ import java.awt.*;
 public class Tank {
     private int x,y;
     private Dir dir = Dir.DOWN;
-    private static final int SPEED = 5;
+    private static final int SPEED = 3;
     // 坦克是否移动
-    private boolean moving = false;
+    private boolean moving = true;
     public static final int TANK_WIDTH = ResourceMgr.tankL.getWidth();
     public static final int TANK_HEIGHT = ResourceMgr.tankL.getHeight();
     private TankFrame tf;
     private boolean living = true;
-
-    public Tank(int x, int y, Dir dir,TankFrame tf) {
+    private Group group = Group.BAD;
+    private Random random = new Random();
+    public Tank(int x, int y, Dir dir,Group group,TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
 
     /**
@@ -75,13 +78,17 @@ public class Tank {
             default:
                 break;
         }
+
+        if (random.nextInt(10)>8){
+            this.fire();
+        }
     }
 
     public void fire() {
         //根据坦克图片大小，计算子弹位置
         int bx = this.x + Tank.TANK_WIDTH/2 - Bullet.BULLET_WIDTH/2;
         int by = this.y + Tank.TANK_HEIGHT/2 - Bullet.BULLET_HEIGHT/2;
-        tf.bullets.add(new Bullet(bx,by,this.dir,tf));
+        tf.bullets.add(new Bullet(bx,by,this.dir,this.group,tf));
     }
 
 
@@ -111,6 +118,14 @@ public class Tank {
 
     public void die() {
         this.living = false;
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }
 
