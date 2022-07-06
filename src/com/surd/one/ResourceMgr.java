@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * @Author: gulang
  * @Date: Create in 22:25 2022/7/6
- * @Description:
+ * @Description: 资源初始化类
  * @Version: 1.0
  */
 public class ResourceMgr {
