@@ -17,12 +17,17 @@ public class Bullet {
     private boolean living = true;
     private TankFrame tf;
     private Group group = Group.BAD;
+    private Rectangle rect = new Rectangle();
     public Bullet(int x, int y, Dir dir,Group group,TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
         this.tf = tf;
+        rect.x = this.x;
+        rect.y = this.y;
+        rect.width = BULLET_WIDTH;
+        rect.height = BULLET_HEIGHT;
     }
 
     public void paint(Graphics g){
@@ -67,6 +72,10 @@ public class Bullet {
                 break;
         }
 
+        //更新rect值
+        rect.x = this.x;
+        rect.y = this.y;
+
         if (x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT){
             living = false;
         }
@@ -77,10 +86,10 @@ public class Bullet {
             return;
         }
         //todo: 用一个rect来记录子弹的位置，new太多垃圾回收会吃力
-        Rectangle rect = new Rectangle(this.x,this.y,BULLET_WIDTH,BULLET_HEIGHT);
-        Rectangle rect2 = new Rectangle(tank.getX(),tank.getY(),Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
+        //Rectangle rect = new Rectangle(this.x,this.y,BULLET_WIDTH,BULLET_HEIGHT);
+        //Rectangle rect2 = new Rectangle(tank.getX(),tank.getY(),Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
         //判断是否相交，如果相交，则坦克和子弹都死亡
-        if (rect.intersects(rect2)){
+        if (rect.intersects(tank.rect)){
             tank.die();
             this.die();
             //根据坦克位置大小，计算爆炸位置

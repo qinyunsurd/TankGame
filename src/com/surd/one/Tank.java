@@ -23,12 +23,17 @@ public class Tank {
     private boolean living = true;
     private Group group = Group.BAD;
     private Random random = new Random();
+    Rectangle rect = new Rectangle();
     public Tank(int x, int y, Dir dir,Group group,TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+        rect.x = this.x;
+        rect.y = this.y;
+        rect.width = TANK_WIDTH;
+        rect.height = TANK_HEIGHT;
     }
 
     /**
@@ -81,6 +86,7 @@ public class Tank {
             default:
                 break;
         }
+
         //敌机随机发射子弹
         if (this.group == Group.BAD && random.nextInt(100)>95){
             this.fire();
@@ -91,6 +97,9 @@ public class Tank {
         }
         //边界检测
         boundsCheck();
+        //更新rectangle
+        rect.x = this.x;
+        rect.y = this.y;
     }
 
     private void boundsCheck() {
