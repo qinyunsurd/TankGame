@@ -13,7 +13,9 @@ public class Tank {
     private int x,y;
     private Dir dir = Dir.DOWN;
     private static final int SPEED = 3;
-    // 坦克是否移动
+    /**
+     * 坦克是否移动
+     */
     private boolean moving = true;
     public static final int TANK_WIDTH = ResourceMgr.tankL.getWidth();
     public static final int TANK_HEIGHT = ResourceMgr.tankL.getHeight();
