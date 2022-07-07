@@ -80,10 +80,18 @@ public class Tank {
             default:
                 break;
         }
-
-        if (random.nextInt(10)>8){
+        //敌机随机发射子弹
+        if (this.group == Group.BAD && random.nextInt(100)>95){
             this.fire();
         }
+        //当是敌方坦克时，随机改变方向
+        if (this.group == Group.BAD && random.nextInt(100) > 95) {
+            randomDir();
+        }
+    }
+
+    private void randomDir() {
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public void fire() {
