@@ -18,7 +18,9 @@ public class TankFrame extends Frame {
     static final int GAME_WIDTH = 800,GAME_HEIGHT =600;
     Tank myTank = new Tank(200,400,Dir.DOWN,Group.GOOD,this);
     List<Bullet> bullets = new ArrayList<>();
-    //加入敌方坦克
+    /**
+     * 加入敌方坦克
+     */
     List<Tank> tanks = new ArrayList<>();
 
     Explode e = new Explode(100,100,this);
@@ -38,7 +40,7 @@ public class TankFrame extends Frame {
 
     /**
      * 用双缓冲解决闪烁问题
-     * 寿险把该画出来的东西先画到内存中的图片中，图片大小和游戏画面一致
+     * 首先把该画出来的东西先画到内存中的图片中，图片大小和游戏画面一致
      * 把内存中的图片一次性画到屏幕中（将内容复制到显存中）
      */
     Image offScreenImage;
