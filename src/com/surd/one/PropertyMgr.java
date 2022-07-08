@@ -20,6 +20,8 @@ public class PropertyMgr {
         }
     }
 
+    private PropertyMgr(){}
+
     public static Object get(String key){
         if (null == pros){
             return null;
