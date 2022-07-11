@@ -1,2 +1,5 @@
 #tanks count at init
 initTankCount=10
+#fireStrategy
+good.fireStrategy=com.surd.one.FourDirStrategy
+bad.fireStrategy=com.surd.one.DefaultFireStrategy
