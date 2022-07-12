@@ -1,5 +1,7 @@
 package com.surd.one;
 
+import com.surd.one.tank.abstractfactory.BaseExplode;
+
 import java.awt.*;
 
 /**
@@ -8,7 +10,7 @@ import java.awt.*;
  * @Description: 爆炸实体类
  * @Version: 1.0
  */
-public class Explode {
+public class Explode extends BaseExplode {
     private int x,y;
     public static final int EXPLODE_WIDTH = ResourceMgr.explodes[0].getWidth();
     public static final int EXPLODE_HEIGHT = ResourceMgr.explodes[0].getHeight();
@@ -20,7 +22,7 @@ public class Explode {
         this.y = y;
         this.tf = tf;
     }
-
+    @Override
     public void paint(Graphics g){
         g.drawImage(ResourceMgr.explodes[step++],x,y,null);
         if (step >= ResourceMgr.explodes.length){

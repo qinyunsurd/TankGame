@@ -1,5 +1,7 @@
 package com.surd.one;
 
+import com.surd.one.tank.abstractfactory.*;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -15,15 +17,17 @@ import java.util.List;
  * @Version: 1.0
  */
 public class TankFrame extends Frame {
-    static final int GAME_WIDTH = 800,GAME_HEIGHT =600;
+    public static final int GAME_WIDTH = 800,GAME_HEIGHT =600;
     Tank myTank = new Tank(200,400,Dir.DOWN,Group.GOOD,this);
-    List<Bullet> bullets = new ArrayList<>();
+
+    public List<BaseBullet> bullets = new ArrayList<>();
     /**
      * 加入敌方坦克
      */
-    List<Tank> tanks = new ArrayList<>();
-    List<Explode> explodes = new ArrayList<>();
-    Explode e = new Explode(100,100,this);
+    public List<BaseTank> tanks = new ArrayList<>();
+    public List<BaseExplode> explodes = new ArrayList<>();
+    //一键更换
+    public GameFactory gf = new DefaultFactory();
     public TankFrame() {
         setSize(GAME_WIDTH,GAME_HEIGHT);
         setResizable(false);

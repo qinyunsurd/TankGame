@@ -1,6 +1,6 @@
-package com.surd.one;
+package com.surd.one.tank.abstractfactory;
 
-import com.surd.one.tank.abstractfactory.BaseTank;
+import com.surd.one.*;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
@@ -12,7 +12,7 @@ import java.util.Random;
  * @Description: 抽象出坦克类，封装属性和方法
  * @Version: 1.0
  */
-public class Tank extends BaseTank {
+public class RectTank extends BaseTank {
     public int x, y;
     public Dir dir = Dir.DOWN;
     private static final int SPEED = 3;
@@ -24,12 +24,12 @@ public class Tank extends BaseTank {
     public static final int TANK_HEIGHT = ResourceMgr.goodTankU.getHeight();
     public TankFrame tf;
     private boolean living = true;
-
+    public Group group = Group.BAD;
     private Random random = new Random();
-
+    public Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
 
-    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
+    public RectTank(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -45,7 +45,6 @@ public class Tank extends BaseTank {
                 String goodFireStrategy = PropertyMgr.getString("good.fireStrategy");
                 Class<?> aClass = Class.forName(goodFireStrategy);
                 fireStrategy = (FireStrategy)aClass.getDeclaredConstructor().newInstance();
-                //fireStrategy = (FireStrategy) aClass.newInstance();
             } else {
                 String badFireStrategy = PropertyMgr.getString("bad.fireStrategy");
                 Class<?> aClass = Class.forName(badFireStrategy);
@@ -76,22 +75,10 @@ public class Tank extends BaseTank {
             tf.tanks.remove(this);
         }
 
-        switch (dir) {
-            case LEFT:
-                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
-                break;
-            case UP:
-                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
-                break;
-            case RIGHT:
-                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
-                break;
-            case DOWN:
-                g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
-                break;
-            default:
-                break;
-        }
+       Color c = g.getColor();
+        g.setColor(group == Group.GOOD ? Color.RED :Color.BLUE);
+        g.fillRect(x,y,50,50);
+        g.setColor(c);
 
         move();
     }
@@ -135,8 +122,8 @@ public class Tank extends BaseTank {
     private void boundsCheck() {
         if (this.x < 2) x = 2;
         if (this.y < 28) y = 28;
-        if (this.x > TankFrame.GAME_WIDTH - Tank.TANK_WIDTH - 2) x = TankFrame.GAME_WIDTH - Tank.TANK_WIDTH - 2;
-        if (this.y > TankFrame.GAME_HEIGHT - Tank.TANK_HEIGHT - 2) y = TankFrame.GAME_HEIGHT - Tank.TANK_HEIGHT - 2;
+        if (this.x > TankFrame.GAME_WIDTH - RectTank.TANK_WIDTH - 2) x = TankFrame.GAME_WIDTH - RectTank.TANK_WIDTH - 2;
+        if (this.y > TankFrame.GAME_HEIGHT - RectTank.TANK_HEIGHT - 2) y = TankFrame.GAME_HEIGHT - RectTank.TANK_HEIGHT - 2;
     }
 
     private void randomDir() {
@@ -144,7 +131,19 @@ public class Tank extends BaseTank {
     }
 
     public void fire() {
-        fireStrategy.fire(this);
+        //fireStrategy.fire(this);
+        //根据坦克图片大小，计算子弹位置
+        int bx = this.x + Tank.TANK_WIDTH/2 - Bullet.BULLET_WIDTH/2;
+        int by = this.y + Tank.TANK_HEIGHT/2 - Bullet.BULLET_HEIGHT/2;
+
+
+        Dir[] dirs = Dir.values();
+        for (Dir dir : dirs) {
+            this.tf.gf.createBullet(bx,by,dir,this.group,this.tf);
+        }
+        if (this.group == Group.GOOD){
+            new Thread(() -> new Audio("audio/tank_fire.wav"));
+        }
     }
 
 

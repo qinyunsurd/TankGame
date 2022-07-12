@@ -1,7 +1,6 @@
-package com.surd.one;
+package com.surd.one.tank.abstractfactory;
 
-import com.surd.one.tank.abstractfactory.BaseBullet;
-import com.surd.one.tank.abstractfactory.BaseTank;
+import com.surd.one.*;
 
 import java.awt.*;
 
@@ -11,7 +10,7 @@ import java.awt.*;
  * @Description:
  * @Version: 1.0
  */
-public class Bullet extends BaseBullet {
+public class RectBullet extends BaseBullet {
     private int x,y;
     private Dir dir =Dir.DOWN;
     private static final int SPEED = 10;
@@ -21,7 +20,7 @@ public class Bullet extends BaseBullet {
     private TankFrame tf;
     private Group group = Group.BAD;
     private Rectangle rect = new Rectangle();
-    public Bullet(int x, int y, Dir dir,Group group,TankFrame tf) {
+    public RectBullet(int x, int y, Dir dir, Group group, TankFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -39,23 +38,10 @@ public class Bullet extends BaseBullet {
         if (!living){
             tf.bullets.remove(this);
         }
-        switch (dir){
-            case LEFT:
-                g.drawImage(ResourceMgr.bulletL,x,y,null);
-                break;
-            case UP:
-                g.drawImage(ResourceMgr.bulletU,x,y,null);
-                break;
-            case RIGHT:
-                g.drawImage(ResourceMgr.bulletR,x,y,null);
-                break;
-            case DOWN:
-                g.drawImage(ResourceMgr.bulletD,x,y,null);
-                break;
-            default:
-                break;
-        }
-
+        Color c = g.getColor();
+        g.setColor(Color.yellow);
+        g.fillRect(x,y,20,20);
+        g.setColor(c);
         move();
     }
 
@@ -91,7 +77,7 @@ public class Bullet extends BaseBullet {
         if (this.group == tank.getGroup()){
             return;
         }
-        //todo: 用一个rect来记录子弹的位置，new太多垃圾回收会吃力
+        //todo: 用一个rect来记录子弹的位置，new太多垃圾回收会吃力，所以rect放在自己的属性中，随时更新，
         //Rectangle rect = new Rectangle(this.x,this.y,BULLET_WIDTH,BULLET_HEIGHT);
         //Rectangle rect2 = new Rectangle(tank.getX(),tank.getY(),Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
         //判断是否相交，如果相交，则坦克和子弹都死亡
