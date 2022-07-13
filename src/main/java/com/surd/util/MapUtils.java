@@ -12,57 +12,51 @@ import java.util.*;
  * @date
  */
 public class MapUtils {
-    private MapUtils(){}
+    private MapUtils() {
+    }
 
     /**
      * 将object转为map集合
+     *
      * @param entity
      * @return map
      * @throws IllegalAccessException
      */
     public static Map<String, Object> beanToMap(Object entity) throws IllegalAccessException {
-        if (null == entity){
+        if (null == entity) {
             return Collections.emptyMap();
         }
         Map<String, Object> parameter = new HashMap<>();
-        Field[]   fields   =   entity.getClass().getDeclaredFields();
+        Field[] fields = entity.getClass().getDeclaredFields();
         for (Field field : fields) {
-            try {
-                if (!field.isAccessible()) {
-                    field.setAccessible(true);
-                }
-                Object o = field.get(entity);
-                parameter.put(field.getName(), o);
-            } catch (Exception e) {
-                throw e;
+            if (!field.isAccessible()) {
+                field.setAccessible(true);
             }
+            Object o = field.get(entity);
+            parameter.put(field.getName(), o);
         }
         return parameter;
     }
 
-    public static <T> T MapToObject(Map<String,Object> map,Class<T> cls) throws InstantiationException, IllegalAccessException, ParseException {
-        Field[] fields=cls.getDeclaredFields();
+    public static <T> T MapToObject(Map<String, Object> map, Class<T> cls) throws InstantiationException, IllegalAccessException, ParseException {
+        Field[] fields = cls.getDeclaredFields();
         T t = null;
-        if(fields.length>0)
-        {
-            t=cls.newInstance();
+        if (fields.length > 0) {
+            t = cls.newInstance();
         }
 
         boolean flag;
         for (Field field : fields) {
-            if(map.containsKey(field.getName())&&map.get(field.getName())!=null)
-            {
-                flag=false;
-                if(!field.isAccessible())
-                {
+            if (map.containsKey(field.getName()) && map.get(field.getName()) != null) {
+                flag = false;
+                if (!field.isAccessible()) {
                     field.setAccessible(true);
-                    flag=true;
+                    flag = true;
                 }
 
-                field.set(t,map.get(field.getName()));
+                field.set(t, map.get(field.getName()));
 
-                if(flag)
-                {
+                if (flag) {
                     field.setAccessible(false);
                 }
             }
@@ -72,8 +66,9 @@ public class MapUtils {
 
     /**
      * 将map转换成url,如果值为空，则不进行处理
+     *
      * @param map parameter
-     * @return  string, like this: a=1&b=2
+     * @return string, like this: a=1&b=2
      */
     public static String convertMapToUrl(Map<String, String> map) {
         if (null == map || map.isEmpty()) {
@@ -82,36 +77,35 @@ public class MapUtils {
         StringBuffer sb = new StringBuffer();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             String value = entry.getValue();
-            if (null != value && !"".equals(value) ){
+            if (null != value && !"".equals(value)) {
                 sb.append(entry.getKey() + "=" + entry.getValue());
                 sb.append("&");
             }
         }
         String s = sb.toString();
         if (s.endsWith("&")) {
-            s = s.substring(0,s.length()-1);
+            s = s.substring(0, s.length() - 1);
         }
         return s;
     }
 
     /**
-     *
-     * @param map 数据源
-     * @param value value
-     * @param islike  是否模糊查找，TRUE是 FALSE否
-     * @return  value对应的key
+     * @param map    数据源
+     * @param value  value
+     * @param islike 是否模糊查找，TRUE是 FALSE否
+     * @return value对应的key
      */
-    public static String getKeyByValue(Map map,String value,boolean islike){
-        Set set=map.entrySet();
+    public static String getKeyByValue(Map map, String value, boolean islike) {
+        Set set = map.entrySet();
         Iterator it = set.iterator();
-        while(it.hasNext()){
-            Map.Entry entry=(Map.Entry)it.next();
-            if(islike){
-                if(String.valueOf(entry.getValue()).contains(value)){
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            if (islike) {
+                if (String.valueOf(entry.getValue()).contains(value)) {
                     return entry.getKey().toString();
                 }
-            }else{
-                if(entry.getValue().equals(value)) return entry.getKey().toString();
+            } else {
+                if (entry.getValue().equals(value)) return entry.getKey().toString();
             }
         }
         return "";
