@@ -1,11 +1,10 @@
 package com.surd.util;
 
-import com.surd.one.Dir;
-import com.surd.one.Group;
-import com.surd.one.Tank;
-import org.springframework.util.StringUtils;
-
 import java.lang.reflect.Field;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -41,6 +40,36 @@ public class MapUtils {
         return parameter;
     }
 
+    public static <T> T MapToObject(Map<String,Object> map,Class<T> cls) throws InstantiationException, IllegalAccessException, ParseException {
+        Field[] fields=cls.getDeclaredFields();
+        T t = null;
+        if(fields.length>0)
+        {
+            t=cls.newInstance();
+        }
+
+        boolean flag;
+        for (Field field : fields) {
+            if(map.containsKey(field.getName())&&map.get(field.getName())!=null)
+            {
+                flag=false;
+                if(!field.isAccessible())
+                {
+                    field.setAccessible(true);
+                    flag=true;
+                }
+
+                field.set(t,map.get(field.getName()));
+
+                if(flag)
+                {
+                    field.setAccessible(false);
+                }
+            }
+        }
+        return t;
+    }
+
     /**
      * 将map转换成url,如果值为空，则不进行处理
      * @param map parameter
@@ -65,13 +94,20 @@ public class MapUtils {
         return s;
     }
 
-    public static String getKey(Map map,String value,boolean islike){
+    /**
+     *
+     * @param map 数据源
+     * @param value value
+     * @param islike  是否模糊查找，TRUE是 FALSE否
+     * @return  value对应的key
+     */
+    public static String getKeyByValue(Map map,String value,boolean islike){
         Set set=map.entrySet();
         Iterator it = set.iterator();
         while(it.hasNext()){
             Map.Entry entry=(Map.Entry)it.next();
             if(islike){
-                if(entry.getValue().toString().contains(value)){
+                if(String.valueOf(entry.getValue()).contains(value)){
                     return entry.getKey().toString();
                 }
             }else{
@@ -80,14 +116,5 @@ public class MapUtils {
         }
         return "";
     }
-    public static void main(String[] args) throws IllegalAccessException {
 
-        Map<String, String> urlMap = new HashMap<>();
-        urlMap.put("a","d");
-        urlMap.put("b","abcde");
-        urlMap.put("aa","ccc");
-        urlMap.put("a1a","ccc1");
-        String urlParamsByMap = MapUtils.getKey(urlMap,"c",true);
-        System.out.println(urlParamsByMap);
-    }
 }
