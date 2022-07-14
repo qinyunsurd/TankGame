@@ -15,25 +15,25 @@ public class Bullet {
     public static final int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static final int BULLET_HEIGHT = ResourceMgr.bulletL.getHeight();
     private boolean living = true;
-    private TankFrame tf;
+    private GameModel gm;
     private Group group = Group.BAD;
     private Rectangle rect = new Rectangle();
-    public Bullet(int x, int y, Dir dir,Group group,TankFrame tf) {
+    public Bullet(int x, int y, Dir dir,Group group,GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.tf = tf;
+        this.gm = gm;
         rect.x = this.x;
         rect.y = this.y;
         rect.width = BULLET_WIDTH;
         rect.height = BULLET_HEIGHT;
-        tf.bullets.add(this);
+        this.gm.bullets.add(this);
     }
 
     public void paint(Graphics g){
         if (!living){
-            tf.bullets.remove(this);
+            gm.bullets.remove(this);
         }
         switch (dir){
             case LEFT:
@@ -96,7 +96,7 @@ public class Bullet {
             //根据坦克位置大小，计算爆炸位置
             int ex = tank.getX() + Tank.TANK_WIDTH/2 - Explode.EXPLODE_WIDTH/2;
             int ey = tank.getY() + Tank.TANK_HEIGHT/2 - Explode.EXPLODE_HEIGHT/2;
-            tf.explodes.add(new Explode(ex,ey,tf));
+            gm.explodes.add(new Explode(ex,ey,gm));
         }
     }
 

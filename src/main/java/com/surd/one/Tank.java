@@ -20,24 +20,23 @@ public class Tank {
     private boolean moving = true;
     public static final int TANK_WIDTH = ResourceMgr.goodTankU.getWidth();
     public static final int TANK_HEIGHT = ResourceMgr.goodTankU.getHeight();
-    public TankFrame tf;
     private boolean living = true;
     public Group group = Group.BAD;
     private Random random = new Random();
     Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
 
-    public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
+    public GameModel gm;
+    public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
         this.x = x;
         this.y = y;
         this.dir = dir;
-        this.tf = tf;
         this.group = group;
         rect.x = this.x;
         rect.y = this.y;
         rect.width = TANK_WIDTH;
         rect.height = TANK_HEIGHT;
-
+        this.gm = gm;
         try {
             if (group == Group.GOOD) {
                 String goodFireStrategy = PropertyMgr.getString("good.fireStrategy");
@@ -70,7 +69,7 @@ public class Tank {
     public void paint(Graphics g) {
         //如果坦克没活，则不画
         if (!living) {
-            tf.tanks.remove(this);
+            gm.tanks.remove(this);
         }
 
         switch (dir) {
