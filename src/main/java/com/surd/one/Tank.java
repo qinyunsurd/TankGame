@@ -1,5 +1,7 @@
 package com.surd.one;
 
+import com.surd.one.strategy.FireStrategy;
+
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
@@ -10,7 +12,7 @@ import java.util.Random;
  * @Description: 抽象出坦克类，封装属性和方法
  * @Version: 1.0
  */
-public class Tank {
+public class Tank extends GameObject{
     public int x, y;
     public Dir dir = Dir.DOWN;
     private static final int SPEED = 3;
@@ -69,7 +71,7 @@ public class Tank {
     public void paint(Graphics g) {
         //如果坦克没活，则不画
         if (!living) {
-            gm.tanks.remove(this);
+            gm.remove(this);
         }
 
         switch (dir) {

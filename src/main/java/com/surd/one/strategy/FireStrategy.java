@@ -1,4 +1,6 @@
-package com.surd.one;
+package com.surd.one.strategy;
+
+import com.surd.one.Tank;
 
 /**
  * @author admin

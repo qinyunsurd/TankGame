@@ -1,23 +1,22 @@
-package com.surd.one;
+package com.surd.one.strategy;
+
+import com.surd.one.*;
 
 /**
  * @author admin
- * @date
+ * @date 默认的子弹策略
  */
-public class FourDirStrategy implements FireStrategy{
+public class DefaultFireStrategy implements FireStrategy {
     @Override
     public void fire(Tank t) {
         //根据坦克图片大小，计算子弹位置
         int bx = t.x + Tank.TANK_WIDTH/2 - Bullet.BULLET_WIDTH/2;
         int by = t.y + Tank.TANK_HEIGHT/2 - Bullet.BULLET_HEIGHT/2;
+        new Bullet(bx,by,t.dir,t.group,t.gm);
 
-
-        Dir[] dirs = Dir.values();
-        for (Dir dir : dirs) {
-            new Bullet(bx,by,dir,t.group,t.gm);
-        }
         if (t.group == Group.GOOD){
             new Thread(() -> new Audio("audio/tank_fire.wav"));
         }
+
     }
 }

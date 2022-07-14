@@ -8,7 +8,7 @@ import java.awt.*;
  * @Description:
  * @Version: 1.0
  */
-public class Bullet {
+public class Bullet extends GameObject{
     private int x,y;
     private Dir dir =Dir.DOWN;
     private static final int SPEED = 10;
@@ -28,12 +28,12 @@ public class Bullet {
         rect.y = this.y;
         rect.width = BULLET_WIDTH;
         rect.height = BULLET_HEIGHT;
-        this.gm.bullets.add(this);
+        this.gm.add(this);
     }
 
     public void paint(Graphics g){
         if (!living){
-            gm.bullets.remove(this);
+            gm.remove(this);
         }
         switch (dir){
             case LEFT:
@@ -96,7 +96,7 @@ public class Bullet {
             //根据坦克位置大小，计算爆炸位置
             int ex = tank.getX() + Tank.TANK_WIDTH/2 - Explode.EXPLODE_WIDTH/2;
             int ey = tank.getY() + Tank.TANK_HEIGHT/2 - Explode.EXPLODE_HEIGHT/2;
-            gm.explodes.add(new Explode(ex,ey,gm));
+            gm.add(new Explode(ex,ey,gm));
         }
     }
 
