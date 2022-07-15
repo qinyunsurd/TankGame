@@ -2,6 +2,7 @@ package com.surd.one;
 
 import com.surd.one.cor.BulletTankCollider;
 import com.surd.one.cor.Collider;
+import com.surd.one.cor.ColliderChain;
 import com.surd.one.cor.TankTankCollider;
 
 import java.awt.*;
@@ -23,8 +24,9 @@ public class GameModel {
     //List<Explode> explodes = new ArrayList<>();
 
     private List<GameObject> objects = new ArrayList<>();
-    Collider bulletTankCollider = new BulletTankCollider();
-    Collider tankTankCollider = new TankTankCollider();
+    //Collider bulletTankCollider = new BulletTankCollider();
+    //Collider tankTankCollider = new TankTankCollider();
+    ColliderChain chain = new ColliderChain();
     public GameModel() {
         int initTankCount = Integer.parseInt((String) PropertyMgr.get("initTankCount"));
         //初始化敌方坦克
@@ -58,8 +60,9 @@ public class GameModel {
             for (int j = i+1;j<objects.size();j++){
                 GameObject o1 = objects.get(i);
                 GameObject o2 = objects.get(j);
-                bulletTankCollider.collider(o1,o2);
-                tankTankCollider.collider(o1,o2);
+                chain.collider(o1,o2);
+                //bulletTankCollider.collider(o1,o2);
+                //tankTankCollider.collider(o1,o2);
             }
         }
         //碰撞检测

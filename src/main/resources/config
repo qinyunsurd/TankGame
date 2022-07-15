@@ -3,3 +3,5 @@ initTankCount=10
 #fireStrategy
 good.fireStrategy=com.surd.one.strategy.FourDirStrategy
 bad.fireStrategy=com.surd.one.strategy.DefaultFireStrategy
+#collider
+colliders=com.surd.one.cor.BulletTankCollider,com.surd.one.cor.TankTankCollider
