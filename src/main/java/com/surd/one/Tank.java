@@ -13,7 +13,7 @@ import java.util.Random;
  * @Version: 1.0
  */
 public class Tank extends GameObject{
-    public int x, y;
+    public int oldX, oldY;
     public Dir dir = Dir.DOWN;
     private static final int SPEED = 3;
     /**
@@ -95,6 +95,8 @@ public class Tank extends GameObject{
     }
 
     private void move() {
+        this.oldX = x;
+        this.oldY = y;
         if (!moving) {
             return;
         }
@@ -120,7 +122,7 @@ public class Tank extends GameObject{
             this.fire();
         }
         //当是敌方坦克时，随机改变方向
-        if (this.group == Group.BAD && random.nextInt(100) > 95) {
+        if (this.group == Group.BAD && random.nextInt(100) > 60) {
             randomDir();
         }
         //边界检测
@@ -135,6 +137,17 @@ public class Tank extends GameObject{
         if (this.y < 28) y = 28;
         if (this.x > TankFrame.GAME_WIDTH - Tank.TANK_WIDTH - 2) x = TankFrame.GAME_WIDTH - Tank.TANK_WIDTH - 2;
         if (this.y > TankFrame.GAME_HEIGHT - Tank.TANK_HEIGHT - 2) y = TankFrame.GAME_HEIGHT - Tank.TANK_HEIGHT - 2;
+    }
+
+    public void  goBack(){
+        this.x = this.oldX;
+        this.y = this.oldY;
+    }
+    public void stop(){
+        moving = false;
+    }
+    public Rectangle getRect() {
+        return rect;
     }
 
     private void randomDir() {
