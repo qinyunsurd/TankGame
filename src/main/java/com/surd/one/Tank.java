@@ -122,7 +122,7 @@ public class Tank extends GameObject{
             this.fire();
         }
         //当是敌方坦克时，随机改变方向
-        if (this.group == Group.BAD && random.nextInt(100) > 60) {
+        if (this.group == Group.BAD && random.nextInt(100) > 95) {
             randomDir();
         }
         //边界检测
