@@ -15,25 +15,23 @@ public class Bullet extends GameObject{
     public static final int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
     public static final int BULLET_HEIGHT = ResourceMgr.bulletL.getHeight();
     private boolean living = true;
-    public GameModel gm;
     public Group group = Group.BAD;
     private Rectangle rect = new Rectangle();
-    public Bullet(int x, int y, Dir dir,Group group,GameModel gm) {
+    public Bullet(int x, int y, Dir dir,Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.group = group;
-        this.gm = gm;
         rect.x = this.x;
         rect.y = this.y;
         rect.width = BULLET_WIDTH;
         rect.height = BULLET_HEIGHT;
-        this.gm.add(this);
+        GameModel.getInstance().add(this);
     }
 
     public void paint(Graphics g){
         if (!living){
-            gm.remove(this);
+            GameModel.getInstance().remove(this);
         }
         switch (dir){
             case LEFT:
@@ -82,24 +80,6 @@ public class Bullet extends GameObject{
         }
     }
 
-    public void collideWith(Tank tank) {
-        if (this.group == tank.getGroup()){
-            return;
-        }
-        //todo: 用一个rect来记录子弹的位置，new太多垃圾回收会吃力
-        //Rectangle rect = new Rectangle(this.x,this.y,BULLET_WIDTH,BULLET_HEIGHT);
-        //Rectangle rect2 = new Rectangle(tank.getX(),tank.getY(),Tank.TANK_WIDTH,Tank.TANK_HEIGHT);
-        //判断是否相交，如果相交，则坦克和子弹都死亡
-        if (rect.intersects(tank.rect)){
-            tank.die();
-            this.die();
-            //根据坦克位置大小，计算爆炸位置
-            int ex = tank.getX() + Tank.TANK_WIDTH/2 - Explode.EXPLODE_WIDTH/2;
-            int ey = tank.getY() + Tank.TANK_HEIGHT/2 - Explode.EXPLODE_HEIGHT/2;
-            gm.add(new Explode(ex,ey,gm));
-        }
-    }
-
     public Rectangle getRect() {
         return rect;
     }
@@ -108,11 +88,4 @@ public class Bullet extends GameObject{
         this.living = false;
     }
 
-    public Group getGroup() {
-        return group;
-    }
-
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 }

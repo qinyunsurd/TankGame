@@ -28,8 +28,7 @@ public class Tank extends GameObject{
     Rectangle rect = new Rectangle();
     FireStrategy fireStrategy;
 
-    public GameModel gm;
-    public Tank(int x, int y, Dir dir, Group group, GameModel gm) {
+    public Tank(int x, int y, Dir dir, Group group) {
         this.x = x;
         this.y = y;
         this.dir = dir;
@@ -38,7 +37,6 @@ public class Tank extends GameObject{
         rect.y = this.y;
         rect.width = TANK_WIDTH;
         rect.height = TANK_HEIGHT;
-        this.gm = gm;
         try {
             if (group == Group.GOOD) {
                 String goodFireStrategy = PropertyMgr.getString("good.fireStrategy");
@@ -61,6 +59,7 @@ public class Tank extends GameObject{
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        GameModel.getInstance().add(this);
     }
 
     /**
@@ -71,7 +70,7 @@ public class Tank extends GameObject{
     public void paint(Graphics g) {
         //如果坦克没活，则不画
         if (!living) {
-            gm.remove(this);
+            GameModel.getInstance().remove(this);
         }
 
         switch (dir) {
@@ -164,16 +163,8 @@ public class Tank extends GameObject{
         return x;
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 
     public void setMoving(boolean moving) {
@@ -192,9 +183,6 @@ public class Tank extends GameObject{
         return group;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
 }
 
 

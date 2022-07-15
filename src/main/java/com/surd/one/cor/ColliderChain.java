@@ -2,7 +2,6 @@ package com.surd.one.cor;
 
 import com.surd.one.GameObject;
 import com.surd.one.PropertyMgr;
-import org.springframework.util.StringUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedList;

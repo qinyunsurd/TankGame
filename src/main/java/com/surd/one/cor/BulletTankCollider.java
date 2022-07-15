@@ -1,9 +1,6 @@
 package com.surd.one.cor;
 
-import com.surd.one.Bullet;
-import com.surd.one.Explode;
-import com.surd.one.GameObject;
-import com.surd.one.Tank;
+import com.surd.one.*;
 
 /**
  * @author admin
@@ -40,7 +37,7 @@ public class BulletTankCollider implements Collider {
             //根据坦克位置大小，计算爆炸位置
             int ex = t.getX() + Tank.TANK_WIDTH / 2 - Explode.EXPLODE_WIDTH / 2;
             int ey = t.getY() + Tank.TANK_HEIGHT / 2 - Explode.EXPLODE_HEIGHT / 2;
-            b.gm.add(new Explode(ex, ey, b.gm));
+            new Explode(ex, ey);
             return true;
         }
         return false;
