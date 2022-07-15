@@ -9,7 +9,6 @@ import java.awt.*;
  * @Version: 1.0
  */
 public class Bullet extends GameObject{
-    private int x,y;
     private Dir dir =Dir.DOWN;
     private static final int SPEED = 10;
     public static final int BULLET_WIDTH = ResourceMgr.bulletL.getWidth();
@@ -51,6 +50,16 @@ public class Bullet extends GameObject{
         }
 
         move();
+    }
+
+    @Override
+    public int getWidth() {
+        return BULLET_WIDTH;
+    }
+
+    @Override
+    public int getHeight() {
+        return BULLET_HEIGHT;
     }
 
     private void move() {
