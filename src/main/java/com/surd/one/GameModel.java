@@ -6,6 +6,7 @@ import com.surd.one.cor.ColliderChain;
 import com.surd.one.cor.TankTankCollider;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,5 +86,46 @@ public class GameModel {
      */
     public Tank getMainTank() {
         return myTank;
+    }
+
+    public void save()  {
+        File file = new File("d:/tank/tank.data");
+        ObjectOutputStream os = null;
+        try {
+            os = new ObjectOutputStream(new FileOutputStream(file));
+            os.writeObject(myTank);
+            os.writeObject(objects);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }finally {
+            try {
+                if (null != os) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void load() {
+        File file = new File("d:/tank/tank.data");
+        ObjectInputStream is = null;
+        try {
+            is = new ObjectInputStream(new FileInputStream(file));
+            myTank = (Tank) is.readObject();
+            objects = (List<GameObject>) is.readObject();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }finally {
+            try {
+                if (null != is)
+                    is.close();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

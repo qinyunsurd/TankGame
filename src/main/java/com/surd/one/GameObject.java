@@ -1,12 +1,13 @@
 package com.surd.one;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * @author admin
  * @date
  */
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
     public int x;
     public int y;
 
